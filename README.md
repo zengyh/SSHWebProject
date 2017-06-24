@@ -1,6 +1,6 @@
 # SSHWebProject
-SSHWebProject SSH项目（集成其它的框架），集成的框架有：spring、hibernate、strust2、oscache
-实现的功能有：
+SSHWebProject SSH项目（集成其它的框架），集成的框架有：spring、hibernate、strust2、oscache<br>
+实现的功能有：<br>
 1）用户登陆、查看在线用户列表、导出所用用户列表
 2）Oscache缓存页面
 3）利用Spring AOP进行日志记录
