@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+    <!-- 数据源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" >
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/test"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="012345"></property>
+        <!--
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></property>
+        <property name="username" value="test"></property>
+        <property name="password" value="test"></property>
+        -->
+        <!--
+        <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"></property>        
+        -->
+        <!-- integratedSecurit=false 只能通过sqlserver用户名和密码验证，不能通过windows身份验证 -->
+        <!--
+        <property name="url" value="jdbc:sqlserver://localhost:1433;database=test;integratedSecurity=false"></property>
+        <property name="username" value="sa"></property>
+        <property name="password" value="012345"></property>
+        -->
+        <property name="maxActive" value="100"></property>
+	    <property name="maxIdle" value="30"></property>
+	    <property name="maxWait" value="500"></property>
+        <property name="defaultAutoCommit" value="false"></property>   
+  </bean>
+
+    <!-- 添加对Hibernate的支持 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<!--
+		 添加hibernate配置 
+		<property name="configLocation">
+		   <value>classpath:hibernate.cfg.xml</value>
+		</property>
+		-->
+		<property name="dataSource" ref="dataSource">
+		</property>
+		<property name="hibernateProperties">
+		    <props>
+	           <prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+	           <!--
+	           <prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
+	           -->	           
+	           <!--
+	           <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+	           -->
+	           <prop key="hibernate.show_sql">true</prop>
+	           <prop key="hibernate.format_sql">true</prop>
+		    </props>
+		</property>
+		<property name="mappingResources">
+		    <list>
+		       <value>edu/po/Users.hbm.xml</value>
+		       <value>edu/po/TLog.hbm.xml</value>
+		    </list>
+		</property>
+	</bean>
+	
+	<!-- Dao -->
+	<bean id="userDao" class="edu.dao.impl.UserDaoImpl" scope="singleton"> <!-- scope="singleton" 表示单例 -->
+	    <property name="sessionFactory" ref="sessionFactory">
+	    </property>
+	</bean>
+	<bean id="logDao" class="edu.dao.impl.LogDaoImpl" scope="singleton">
+	    <property name="sessionFactory" ref="sessionFactory">
+	    </property>
+	</bean>
+	
+	<!-- Service -->
+	<bean id="userService" class="edu.service.impl.UserServiceImpl" scope="singleton">
+	    <property name="userdao" ref="userDao">
+	    </property>
+	</bean>
+	
+	<!-- Action -->
+	<bean id="saveUserAction" class="edu.action.user.SaveUserAction" scope="prototype"> <!-- scope="prototype"表示每次是使用这个实体bean都会new一个 -->
+	    <property name="userservice" ref="userService"></property>
+	</bean>
+	<bean id="listUserAction" class="edu.action.user.ListUserAction" scope="prototype">
+	    <property name="userservice" ref="userService"></property>
+	</bean>
+	<bean id="generateExcelAction" class="edu.action.user.GenerateExcelAction" scope="singleton">
+	    <property name="userservice" ref="userService"></property>
+	</bean>
+	<bean id="loginAction" class="edu.action.user.LoginAction" scope="prototype"> <!-- scope="prototype"表示每次是使用这个实体bean都会new一个 -->
+	    <property name="userservice" ref="userService"></property>
+	</bean>	
+	
+	<!--声明一个事务管理器  --> 
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	    <property name="sessionFactory">
+		    <ref local="sessionFactory" />
+	    </property>
+	</bean>
+	
+	<!-- 声明一个事务通知 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	    <tx:attributes>
+	       <tx:method name="*" propagation="REQUIRED"/>
+	    </tx:attributes>
+	</tx:advice>
+	
+	<!-- 声明一个AOP切入点 -->
+	<aop:config>
+	   <aop:pointcut id="daoMethods" expression="execution(* edu.dao.impl.*.*(..))" />
+	   <aop:advisor advice-ref="txAdvice" pointcut-ref="daoMethods"/>
+	</aop:config>
+	
+	<!--利用AOP添加日志记录 -->
+	<bean id="logAspectClass" class="edu.log.impl.LogAspectImpl">
+	   <property name="logDao" ref="logDao"></property>
+	</bean>
+	<aop:config>
+	    <aop:pointcut id="logPointcut" expression="execution(* edu.service.impl.*.*(..))"/>
+	    <aop:aspect id="logAspect" ref="logAspectClass">
+	         <aop:after method="logArg" pointcut-ref="logPointcut"/> 
+	         <!-- 
+	         <aop:after-returning method="logArgAndReturn" arg-names="point,returnObj" returning="returnObj" pointcut-ref="logPointcut"/>
+	         -->
+	    </aop:aspect> 
+	</aop:config>
+
+</beans>

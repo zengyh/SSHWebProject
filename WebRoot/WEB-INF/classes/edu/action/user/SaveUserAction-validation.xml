@@ -1,0 +1,25 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN" 
+   "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+
+<validators>
+   <field name="uservo.username">
+      <field-validator type="requiredstring" short-circuit="true">
+          <param name="trim">true</param>
+          <message>用户名不能为空!</message>
+      </field-validator>
+      <field-validator type="regex">
+          <param name="expression"><![CDATA[(.{2,8})]]></param>
+          <message>用户名必须为2到8的字符</message>
+      </field-validator>
+   </field>
+   <field name="uservo.password">
+     <field-validator type="requiredstring" short-circuit="true">
+         <param name="trim">true</param>
+         <message>密码不能为空!</message>
+     </field-validator>
+     <field-validator type="regex">
+         <param name="expression"><![CDATA[(.{4,10})]]></param>
+         <message>密码长度必须为4到10</message>
+     </field-validator>
+   </field>
+</validators>

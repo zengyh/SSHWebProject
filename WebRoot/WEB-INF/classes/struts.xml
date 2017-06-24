@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+   <constant name="struts.devMode" value="false"></constant>
+   <package name="default" extends="struts-default">
+       <global-results>
+          <result name="loginerror">login.jsp</result>
+       </global-results>
+       <global-exception-mappings>
+          <exception-mapping result="loginerror" exception="edu.exception.NoPermissionException"/>
+       </global-exception-mappings>  
+   </package>
+   <package name="user" extends="struts-default">
+       <action name="saveUser" class="saveUserAction">
+           <result name="success">listUser.jsp</result>
+           <result name="input">index.jsp</result>
+       </action>
+       <action name="listUser" class="listUserAction">
+           <result name="success">listUser.jsp</result>
+           <result name="input">index.jsp</result>
+       </action>
+       <action name="generateExcel" class="generateExcelAction">
+           <result name="success" type="stream">
+               <param name="contentType">application/vnd.ms-excel</param>
+                <param name="contentDisposition" >attachment;filename="${fileName}"</param>
+                <param name="inputName" >downloadFile</param>
+           </result>
+       </action>
+       <action name="login" class="loginAction">
+           <result name="success">listOnlineUser.jsp</result>
+           <result name="input">login.jsp</result>
+       </action>       
+   </package>
+</struts>    
