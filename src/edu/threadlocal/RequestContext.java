@@ -7,15 +7,16 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import edu.vo.UserVO;
 
 /**
  * Title: RequestContext.java
  * Description: 请求上下文 (存放了HttpSession、HttpServletRequest等对象)
+ *              这个类不推荐使用，作为替换请使用LocalRequestContextHolder类
  * @author yh.zeng
  * @date 2017-6-21
  */
+@Deprecated()
 public class RequestContext {
 
 	private ServletContext servletContext;
@@ -26,6 +27,8 @@ public class RequestContext {
 	private UserVO currentUser;  //当前登陆用户
 	
 	private final static ThreadLocal<RequestContext> contexts = new ThreadLocal<RequestContext>();
+	
+	private RequestContext(){}
 	
 	/**
 	 * 初始化请求上下文

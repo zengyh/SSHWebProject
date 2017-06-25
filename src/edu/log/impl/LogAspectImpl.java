@@ -2,16 +2,14 @@ package edu.log.impl;
 
 import java.sql.Timestamp;
 import java.util.Date;
-
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
-
 import utils.JsonUtils;
 import utils.StringUtils;
 import edu.dao.ILogDao;
 import edu.log.ILogAspect;
 import edu.po.TLog;
-import edu.threadlocal.RequestContext;
+import edu.threadlocal.LocalRequestContextHolder;
 import edu.vo.UserVO;
 
 public class LogAspectImpl implements ILogAspect {
@@ -24,7 +22,7 @@ public class LogAspectImpl implements ILogAspect {
 		TLog logEntity = new TLog();
 		
 		//当前用户信息
-		UserVO currentUser = RequestContext.getLocalRequestContext().getCurrentUser();
+		UserVO currentUser = LocalRequestContextHolder.getLocalRequestContext().getCurrentUser();
 		if(currentUser != null){
 			operator.append("用户：" + currentUser.getUsername() + "，");
 			logEntity.setUsername(currentUser.getUsername());

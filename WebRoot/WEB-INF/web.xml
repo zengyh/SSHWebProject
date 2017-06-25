@@ -33,13 +33,13 @@
 	    <filter-name>PermissionAccessFilter</filter-name>
 	    <url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- 初始化RequestContext上下文，要放到Struts2的Filter前，否则无法过滤action -->
+	<!-- 初始化LocalRequestContext当前请求上下文，要放到Struts2的Filter前，否则无法过滤action -->
 	<filter>
-	    <filter-name>RequestContextFilter</filter-name>
-	    <filter-class>edu.filter.RequestContextFilter</filter-class>
+	    <filter-name>LocalRequestContextFilter</filter-name>
+	    <filter-class>edu.filter.LocalRequestContextFilter</filter-class>
 	</filter>	
 	<filter-mapping>
-	    <filter-name>RequestContextFilter</filter-name>
+	    <filter-name>LocalRequestContextFilter</filter-name>
         <url-pattern>/*</url-pattern>
 	</filter-mapping>	
 	<!-- Struts2配置 -->
