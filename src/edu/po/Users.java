@@ -1,15 +1,15 @@
 package edu.po;
 
 /**
- * User entity. @author MyEclipse Persistence Tools
+ * Users entity. @author MyEclipse Persistence Tools
  */
 
 public class Users implements java.io.Serializable {
-	
-	private static final long serialVersionUID = 22409479335640310L;
-	
+
 	// Fields
+
 	private Integer id;
+	private Integer version;
 	private String username;
 	private String password;
 
@@ -33,6 +33,14 @@ public class Users implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getVersion() {
+		return this.version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 
 	public String getUsername() {

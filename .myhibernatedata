@@ -1,5 +1,5 @@
 #MyEclipse Hibernate Properties
-#Thu Jun 22 17:29:19 CST 2017
+#Tue Jun 27 21:07:38 CST 2017
 sessionFactoryName=
 genBasicCompId=false
 profile=
@@ -14,11 +14,11 @@ useJavaTypes=true
 keyGenerator=native
 libInstallFolder=/WebRoot/WEB-INF/lib
 addLibs2Project=true
-genVersionTag=false
+genVersionTag=true
 sessionFactoryId=
 basePersistenceClass=
 genAnnotations=false
-reSettingsFile=/SSHTest/hibernate.reveng.xml
+reSettingsFile=/SSHWebProject/hibernate.reveng.xml
 configFile=/Test/src/hibernate.cfg.xml
 createConfigFile=true
 addLibs2Classpath=true

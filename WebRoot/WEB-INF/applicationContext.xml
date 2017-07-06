@@ -34,7 +34,7 @@
 	    <property name="maxIdle" value="30"></property>
 	    <property name="maxWait" value="500"></property>
         <property name="defaultAutoCommit" value="false"></property>   
-  </bean>
+    </bean>
 
     <!-- 添加对Hibernate的支持 -->
 	<bean id="sessionFactory"
@@ -58,6 +58,10 @@
 	           -->
 	           <prop key="hibernate.show_sql">true</prop>
 	           <prop key="hibernate.format_sql">true</prop>
+	           <!-- 开启二级缓存，使用EhCache缓存 -->
+		       <prop key="hibernate.cache.use_second_level_cache">true</prop>
+		       <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+		       <prop key="hibernate.cache.use_query_cache">true</prop>
 		    </props>
 		</property>
 		<property name="mappingResources">
@@ -67,7 +71,7 @@
 		    </list>
 		</property>
 	</bean>
-	
+    
 	<!-- Dao -->
 	<bean id="userDao" class="edu.dao.impl.UserDaoImpl" scope="singleton"> <!-- scope="singleton" 表示单例 -->
 	    <property name="sessionFactory" ref="sessionFactory">
