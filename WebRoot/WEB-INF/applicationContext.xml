@@ -61,7 +61,12 @@
 	           <!-- 开启二级缓存，使用EhCache缓存 -->
 		       <prop key="hibernate.cache.use_second_level_cache">true</prop>
 		       <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+		       <!-- 开启查询缓存 -->
 		       <prop key="hibernate.cache.use_query_cache">true</prop>
+		       <!-- 开启收集缓存统计信息的功能，可以查看实际缓存的内容、命中率等 -->
+		       <prop key="hibernate.generate_statistics">true</prop> 
+		       <!--  optionally, force Hibernate to keep the cache entries in a more readable format  -->
+		       <prop key="hibernate.cache.use_structured_entries">true</prop>
 		    </props>
 		</property>
 		<property name="mappingResources">

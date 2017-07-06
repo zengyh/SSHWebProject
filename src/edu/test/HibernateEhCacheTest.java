@@ -1,14 +1,14 @@
 package edu.test;
 
 import java.sql.SQLException;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.stat.EntityStatistics;
+import org.hibernate.stat.Statistics;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
-
 import utils.SpringBeanUtils;
 import edu.po.Users;
 
@@ -141,6 +141,25 @@ public class HibernateEhCacheTest {
 		});
 		System.out.println("用户名：" + user12.getUsername());
 		
+		//Cache统计统计信息
+		Statistics statistics= sessionFactory.getStatistics();
+		System.out.println(statistics);
+		System.out.println("放入"+statistics.getSecondLevelCachePutCount());
+		System.out.println("命中"+statistics.getSecondLevelCacheHitCount());
+		System.out.println("错过"+statistics.getSecondLevelCacheMissCount());
+		//详细的Cache统计信息
+		for (int i = 0; i < statistics.getEntityNames().length; i++) {
+			String entityName = statistics.getEntityNames()[i];
+			EntityStatistics entityStatistics = statistics.getEntityStatistics(entityName);
+			StringBuilder cacheOperator = new StringBuilder();
+			cacheOperator.append("CategoryName：" ).append(entityStatistics.getCategoryName())
+			             .append("，DeleteCount：").append(entityStatistics.getDeleteCount())
+			             .append("，FetchCount：").append(entityStatistics.getFetchCount())
+			             .append("，InsertCount：").append(entityStatistics.getInsertCount())
+			             .append("，LoadCount：").append(entityStatistics.getLoadCount())			             
+			             .append("，OptimisticFailureCount：").append(entityStatistics.getOptimisticFailureCount())	
+			             .append("，UpdateCount：").append(entityStatistics.getUpdateCount());			             
+			System.out.println(cacheOperator.toString());
+		}
 	}
 }
-;

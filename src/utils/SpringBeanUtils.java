@@ -6,7 +6,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 /**
  * Title: SpringBeanUtils.java
- * Description: 获取Spring的Bean实例对象
+ * Description: 获取Spring的Bean实例对象的工具类
  * @author yh.zeng
  * @date 2017-6-27
  */
