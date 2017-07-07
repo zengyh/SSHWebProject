@@ -61,6 +61,8 @@
 	           <!-- 开启二级缓存，使用EhCache缓存 -->
 		       <prop key="hibernate.cache.use_second_level_cache">true</prop>
 		       <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+		       <!-- 配置EhCache的配置文件的路径，默认是ehcache.xml -->
+		       <prop key="hibernate.cache.provider_configuration_file_resource_path">ehcacheCfg/ehcache.xml</prop>
 		       <!-- 开启查询缓存 -->
 		       <prop key="hibernate.cache.use_query_cache">true</prop>
 		       <!-- 开启收集缓存统计信息的功能，可以查看实际缓存的内容、命中率等 -->
