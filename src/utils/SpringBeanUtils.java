@@ -13,7 +13,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 public class SpringBeanUtils {
 	
 	static String filePath ="WebRoot/WEB-INF/applicationContext.xml";
-	static final ApplicationContext CONTEXT = new FileSystemXmlApplicationContext(filePath);
+	static  ApplicationContext CONTEXT = new FileSystemXmlApplicationContext(filePath);
 	
 	/**
 	 * 获取Bean
@@ -39,6 +39,7 @@ public class SpringBeanUtils {
 
 	public static void setFilePath(String filePath) {
 		SpringBeanUtils.filePath = filePath;
+		CONTEXT = new FileSystemXmlApplicationContext(filePath);
 	}
 	
 }
