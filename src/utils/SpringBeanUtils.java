@@ -1,5 +1,6 @@
 package utils;
 
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -12,8 +13,18 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  */
 public class SpringBeanUtils {
 	
+	private static Logger logger = Logger.getLogger(SpringBeanUtils.class);
+	
 	static String filePath ="WebRoot/WEB-INF/applicationContext.xml";
-	static  ApplicationContext CONTEXT = new FileSystemXmlApplicationContext(filePath);
+	static  ApplicationContext CONTEXT ;
+	static{
+		try{
+			CONTEXT = new FileSystemXmlApplicationContext(filePath);
+		}catch(Exception e){
+			logger.error(StringUtils.getExceptionMessage(e));
+		}
+	}
+	
 	
 	/**
 	 * 获取Bean
