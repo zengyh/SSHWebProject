@@ -15,11 +15,10 @@ public class SpringBeanUtils {
 	
 	private static Logger logger = Logger.getLogger(SpringBeanUtils.class);
 	
-	static String filePath ="WebRoot/WEB-INF/applicationContext.xml";
 	static  ApplicationContext CONTEXT ;
 	static{
 		try{
-			CONTEXT = new FileSystemXmlApplicationContext(filePath);
+			CONTEXT = new FileSystemXmlApplicationContext("WebRoot/WEB-INF/applicationContext.xml");
 		}catch(Exception e){
 			logger.error(StringUtils.getExceptionMessage(e));
 		}
@@ -44,12 +43,7 @@ public class SpringBeanUtils {
 		return (SessionFactory) CONTEXT.getBean(uniqueIdentifier);
 	}
 
-	public static String getFilePath() {
-		return filePath;
-	}
-
-	public static void setFilePath(String filePath) {
-		SpringBeanUtils.filePath = filePath;
+	public static void setFilePath(String... filePath) {
 		CONTEXT = new FileSystemXmlApplicationContext(filePath);
 	}
 	
