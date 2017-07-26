@@ -20,7 +20,7 @@ public class SpringBeanUtils {
 		try{
 			CONTEXT = new FileSystemXmlApplicationContext("WebRoot/WEB-INF/applicationContext.xml");
 		}catch(Exception e){
-			logger.error(StringUtils.getExceptionMessage(e));
+			logger.warn(StringUtils.getExceptionMessage(e));
 		}
 	}
 	
@@ -44,7 +44,12 @@ public class SpringBeanUtils {
 	}
 
 	public static void setFilePath(String... filePath) {
-		CONTEXT = new FileSystemXmlApplicationContext(filePath);
+		try{
+			CONTEXT = new FileSystemXmlApplicationContext(filePath);
+		}catch(Exception e){
+			logger.error(StringUtils.getExceptionMessage(e));
+		}
+		
 	}
 	
 }
